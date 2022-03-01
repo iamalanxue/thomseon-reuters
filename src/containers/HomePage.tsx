@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { items, cardHeight } from '../common/common';
+import { items, cardHeight, bewm } from '../common/common';
 import { Chrono } from 'react-chrono';
 
 const HomePage = ()  => {
@@ -7,7 +7,7 @@ const HomePage = ()  => {
     <div className='homePage-container'>
       <div className='timeline'>
         <Chrono
-          items={items}
+          items={bewm}
           mode='VERTICAL'
           cardHeight={cardHeight}
         />

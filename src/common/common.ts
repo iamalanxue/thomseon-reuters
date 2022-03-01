@@ -1,8 +1,30 @@
+const TITLE = ['5/5/2015', '1/7/2016','1/8/2016','2/3/2016','1/6/2015','1/6/2015','1/6/2015']
+const sub = 'IL-CDCT1:15CV01006'
+const cardT = ['NOTICE of Appearance', 'MOTION for Extension of Time', 'TEXT ORDER', 'Remark', 'ORDER', 'NOTICE of Appearance', 'STRICKEN PURSUANT TO TEXT ORDER']
+const detailedText = [
+'NOTICE of Appearance of Attorney by Jenny Diane DeFrancisco on behalf of Sean Coleman (DeFrancisco, Jenny) (Entered: 05/05/2015)',
+'MOTION for Extension of Time to File Stipulation of Dismissal by Plaintiff Sean Coleman. Responses due by 1/25/2016 (Lemberg, Sergei) (Entered: 01/07/2016)',
+'TEXT ORDER granting  <gil>16</gil>  Motion for Extension of Time to File. Settlement Papers ddl extended to 2/8/2016. Entered by Magistrate Judge Jonathan E. Hawley on 1/8/16. (WG, ilcd) (Entered: 01/08/2016)',
+'Remark: This case is closed pursuant to the Stipulation to Dismiss. (FDT, ilcd) (Entered: 02/03/2016)',
+'ORDER Entered by Chief Judge James E. Shadid on 1/6/15: IT IS ORDERED: 1) The Clerk of Court is directed to file in this case all the papers received from Mr. Henderson to date. 2) The Clerk of Court is directed to return to Georgia inmate Keith Henderson, unfiled, all mailings received from Mr. Henderson after the entry of this order. 3) The Clerk of Court is directed to circulate this order to all the divisions in the Central District of Illinois and to place Mr. Henderson on the restricted filer list. 4) This case is dismissed, with prejudice, as frivolous and malicious. 5) This case is closed. (TK, ilcd) (Entered: 01/06/2015)',
+'NOTICE of Appearance of Attorney by Depeng Bi on behalf of SLEP-TONE ENTERTAINMENT CORP. (Bi, Depeng) (Entered: 01/06/2015)',
+'STRICKEN PURSUANT TO TEXT ORDER ENTERED ON 1/16/15-NOTICE of Appearance of Attorney by Depeng Bi on behalf of SLEP-TONE ENTERTAINMENT CORP. (Bi, Depeng) Modified on 1/16/2015 (VP, ilcd). (Entered: 01/06/2015)',
+]
+
+export const bewm = TITLE.map((t, i) => (
+  {
+    title: t,
+    cardTitle: cardT[i],
+    cardSubtitle: sub,
+    cardDetailedText: detailedText[i]
+  }
+)) 
+
 export const items = [
   {
-    title: "May 1940",
-    cardTitle: "Dunkirk",
-    url: "http://google.com",
+    title: TITLE[0],
+    cardTitle: "NOTICE of Appearance",
+    // url: "http://google.com",
     cardSubtitle:
       "Men of the British Expeditionary Force (BEF) wade out to a destroyer during the evacuation from Dunkirk.",
     cardDetailedText: `On 10 May 1940, Hitler began his long-awaited offensive in the west by invading neutral Holland and Belgium and attacking northern France. Holland capitulated after only five days of fighting, and the Belgians surrendered on 28 May. With the success of the German ‘Blitzkrieg’, the British Expeditionary Force and French troops were in danger of being cut off and destroyed.`
