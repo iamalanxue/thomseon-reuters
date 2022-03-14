@@ -6,7 +6,8 @@ import csv
 import json
 from flask_cors import CORS
 
-app = Flask(__name__) 
+app = Flask(__name__, instance_relative_config=True)
+CORS(app) 
 SECRET_KEY = 'super_secret_key'
 app.config['SECRET_KEY'] = SECRET_KEY
 
@@ -20,15 +21,14 @@ def about():
 
 @app.route("/upload", methods=['GET', 'POST'])
 def upload_file():
-  print('its working')
   if request.method == 'POST':
-    print(request.files['fileName'])
+    print(request.files)
     # check if the post request has the file part
-    if 'fileName' not in request.files:
+    if 'file' not in request.files:
       print('NO FILES')
       flash('No file part')
       return redirect(request.url)
-    file = request.files['fileName']
+    file = request.files['file']
     print("FILENAME BBY", file.filename)
   return "YOLO"
 
