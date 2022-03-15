@@ -5,6 +5,7 @@ import os
 import csv 
 import json
 from flask_cors import CORS
+from load_model import guess
 
 app = Flask(__name__, instance_relative_config=True)
 CORS(app) 
@@ -33,11 +34,15 @@ def upload_file():
     # print(os.getcwd())
     join_to_static_dir = lambda x: os.path.join("static", x)
     download_filename = join_to_static_dir(file.filename)
+    print(download_filename)
     with open(download_filename, 'w', newline="") as f:
         f.write(file.read().decode("utf-8"))
             
     output_filepath = join_to_static_dir("out.csv")
-  return "YOLO"
+    pathAbstracted = os.path.abspath("static")
+    predictions = guess(download_filename, output_filepath)
+    return send_from_directory(pathAbstracted, filename="out.csv", as_attachment = True)
+
 
 if __name__ == "__main__":
   app.run(debug=True)

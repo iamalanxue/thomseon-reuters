@@ -37,7 +37,7 @@ def clearConsole():
         command = 'cls'
     os.system(command)
 
-def guess(path_to_data):
+def guess(path_to_data, output_path):
     '''
     guesses motion type of each line of data in path_to_data (csv please)
     '''
@@ -116,13 +116,15 @@ def guess(path_to_data):
         elif maxidx == 1: predictions.append("Motion to Dismiss")        
         else: predictions.append("Motion for Summary Judgement")
 
-
+    out = pd.read_csv(path_to_data)
+    out['motion_type'] = predictions
+    out.to_csv(output_path) #'static/output.csv'
     return predictions
 
 
 
 
-print(guess("static/input.csv"))
+# print(guess("static/input.csv"))
 
 
 '''
