@@ -26,10 +26,17 @@ def upload_file():
     # check if the post request has the file part
     if 'file' not in request.files:
       print('NO FILES')
-      flash('No file part')
+      # flash('No file part')
       return redirect(request.url)
     file = request.files['file']
-    print("FILENAME BBY", file.filename)
+    # print("FILENAME BBY", file.filename)
+    # print(os.getcwd())
+    join_to_static_dir = lambda x: os.path.join("static", x)
+    download_filename = join_to_static_dir(file.filename)
+    with open(download_filename, 'w', newline="") as f:
+        f.write(file.read().decode("utf-8"))
+            
+    output_filepath = join_to_static_dir("out.csv")
   return "YOLO"
 
 if __name__ == "__main__":
