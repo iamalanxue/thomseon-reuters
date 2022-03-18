@@ -43,6 +43,9 @@
       margin-bottom: 15px;
     }
   }
+  .loading-container {
+    transform: translate(-40px, 0px);
+  }
 }
 @keyframes animate {
   0%, 10%{

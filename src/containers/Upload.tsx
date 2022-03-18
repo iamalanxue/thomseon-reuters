@@ -1,9 +1,11 @@
 import { BaseSyntheticEvent } from 'react';
 import { Button, Typography } from "@mui/material"
 import { useState } from "react"
+import PacmanLoader from "react-spinners/PacmanLoader" 
 
 
 const Upload = () => {
+  const [loading, setLoading] = useState<boolean>(false); 
   const [file, setFile] = useState<File | undefined>(undefined);
   const [result, setResult] = useState<String>(""); 
   const chooseFile = (event: BaseSyntheticEvent) => {
@@ -23,6 +25,7 @@ const Upload = () => {
         // headers: {'Authorization': localStorage.getItem('token')},
         body: data
       }
+      setLoading(!loading);
       fetch('http://127.0.0.1:5000/upload', options)
         .then(response => response.body)
         .then(body => {
@@ -41,7 +44,7 @@ const Upload = () => {
               }
             }
             setResult(temp);
-            console.log(temp)
+            // console.log(temp)
             let csvData = new Blob([temp], { type: 'text/csv' });  
             let csvUrl = URL.createObjectURL(csvData);
 
@@ -51,35 +54,42 @@ const Upload = () => {
             hiddenElement.download = 'out' + '.csv';
             hiddenElement.click();
           })
+          return body;
         })
+        .then(body => setLoading(false))
         .catch(err => {
           console.log(err)
         })
     }
   }
   return(
-    <div className="title">
-      <h2 data-text="Motionary...">
-        Motionary...
-      </h2>
-      <Button variant="outlined" component="label">
-        Choose File
-        <input
-          type="file"
-          hidden
-          onChange={chooseFile}
-        />
-      </Button>
-      {file == undefined ? undefined : <Typography>Chosen File: {file.name}</Typography>}
-      <Button variant="outlined" component="label" onClick={handleUpload}>
-          Upload File
-      </Button>
-      {/* {file && (
+    <div className="upload-container">
+        <div className="title">
+          <h2 data-text="Motionary...">
+            Motionary...
+          </h2>
+          <Button variant="outlined" component="label">
+            Choose File
+            <input
+              type="file"
+              hidden
+              onChange={chooseFile}
+            />
+          </Button>
+          {file == undefined ? undefined : <Typography>Chosen File: {file.name}</Typography>}
+          <Button variant="outlined" component="label" onClick={handleUpload}>
+              Upload File
+          </Button>
+          {/* {file && (
 
-        <Button variant="outlined" component="label" onClick={handleUpload}>
-          Upload File
-        </Button>
-      )} */}
+            <Button variant="outlined" component="label" onClick={handleUpload}>
+              Upload File
+            </Button>
+          )} */}
+        </div>
+        <div  className="loading-container">
+           <PacmanLoader color={"#01fe87"} loading={loading} size={50}/>
+        </div>
     </div>
   )
 }
