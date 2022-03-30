@@ -2,7 +2,8 @@ import { BaseSyntheticEvent } from 'react';
 import { Button, Typography } from "@mui/material"
 import { useState } from "react"
 import PacmanLoader from "react-spinners/PacmanLoader" 
-
+import ScaleLoader from "react-spinners/ScaleLoader"
+import { RingLoader } from 'react-spinners';
 
 const Upload = () => {
   const [loading, setLoading] = useState<boolean>(false); 
@@ -30,7 +31,6 @@ const Upload = () => {
         .then(response => response.body)
         .then(body => {
           const reader = body?.getReader()
-          console.log(reader)
           reader?.read().then(function processText({done, value}) {
             let temp = ""
             let data = value ? value.length : 10
@@ -44,15 +44,15 @@ const Upload = () => {
               }
             }
             setResult(temp);
-            // console.log(temp)
-            let csvData = new Blob([temp], { type: 'text/csv' });  
-            let csvUrl = URL.createObjectURL(csvData);
+            console.log(temp)
+            // let csvData = new Blob([temp], { type: 'text/csv' });  
+            // let csvUrl = URL.createObjectURL(csvData);
 
-            let hiddenElement = document.createElement('a');
-            hiddenElement.href = csvUrl;
-            hiddenElement.target = '_blank';
-            hiddenElement.download = 'out' + '.csv';
-            hiddenElement.click();
+            // let hiddenElement = document.createElement('a');
+            // hiddenElement.href = csvUrl;
+            // hiddenElement.target = '_blank';
+            // hiddenElement.download = 'out' + '.csv';
+            // hiddenElement.click();
           })
           return body;
         })
@@ -61,6 +61,16 @@ const Upload = () => {
           console.log(err)
         })
     }
+  }
+  const downloadResult = (event: any) => {
+    let csvData = new Blob([result as BlobPart], { type: 'text/csv' });  
+    let csvUrl = URL.createObjectURL(csvData);
+
+    let hiddenElement = document.createElement('a');
+    hiddenElement.href = csvUrl;
+    hiddenElement.target = '_blank';
+    hiddenElement.download = 'out' + '.csv';
+    hiddenElement.click();
   }
   return(
     <div className="upload-container">
@@ -77,9 +87,21 @@ const Upload = () => {
             />
           </Button>
           {file == undefined ? undefined : <Typography>Chosen File: {file.name}</Typography>}
-          <Button variant="outlined" component="label" onClick={handleUpload}>
+          <div className="loading-container">
+            <RingLoader size={45} color={"#ff5900"} loading={loading}/>
+          </div>
+          
+          {result == "" ? 
+          <div className='gray-button'>
+          <Button variant="contained" component="label" onClick={handleUpload}>
               Upload File
           </Button>
+          </div>
+          :
+          <Button variant="contained" component="label" onClick={downloadResult}>
+              Download Result
+          </Button>
+          }
           {/* {file && (
 
             <Button variant="outlined" component="label" onClick={handleUpload}>
@@ -88,7 +110,9 @@ const Upload = () => {
           )} */}
         </div>
         <div  className="loading-container">
-           <PacmanLoader color={"#01fe87"} loading={loading} size={50}/>
+           {/* <PacmanLoader color={"#ff5900"} loading={loading} size={50}/> */}
+           {/* <ScaleLoader color={"#ff5900"} loading={loading} />  */}
+           
         </div>
     </div>
   )
