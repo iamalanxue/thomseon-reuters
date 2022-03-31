@@ -93,7 +93,7 @@ const Upload = () => {
           
           {result == "" ? 
           <div className='gray-button'>
-          <Button variant="contained" component="label" onClick={handleUpload}>
+          <Button variant="contained" component="label" onClick={handleUpload} disabled={file ? false : true}>
               Upload File
           </Button>
           </div>
