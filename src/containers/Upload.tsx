@@ -1,14 +1,23 @@
-import { BaseSyntheticEvent } from 'react';
+import { BaseSyntheticEvent, useEffect } from 'react';
 import { Button, Typography } from "@mui/material"
 import { useState } from "react"
 import PacmanLoader from "react-spinners/PacmanLoader" 
 import ScaleLoader from "react-spinners/ScaleLoader"
 import { RingLoader } from 'react-spinners';
-
+import Papa from 'papaparse';
+import { Rows } from '../common/common';
 const Upload = () => {
   const [loading, setLoading] = useState<boolean>(false); 
   const [file, setFile] = useState<File | undefined>(undefined);
-  const [result, setResult] = useState<String>(""); 
+  const [data, setData] = useState<string[][]>([]); 
+  const [tableRows, setRows] = useState<Rows[]>([])
+  const [result, setResult] = useState<string>(""); 
+
+  useEffect(() => {
+    console.log(tableRows)
+    console.log(data)
+  }, [tableRows, data])
+
   const chooseFile = (event: BaseSyntheticEvent) => {
     // console.log(event.target.files); 
     // console.log(event)
@@ -44,7 +53,7 @@ const Upload = () => {
               }
             }
             setResult(temp);
-            console.log(temp)
+            // console.log(temp)
             // let csvData = new Blob([temp], { type: 'text/csv' });  
             // let csvUrl = URL.createObjectURL(csvData);
 
@@ -71,6 +80,11 @@ const Upload = () => {
     hiddenElement.target = '_blank';
     hiddenElement.download = 'out' + '.csv';
     hiddenElement.click();
+
+    const res = Papa.parse(result, {header: false})
+    setData(res.data as string[][])
+    const wow = data.map(row => ({Description: row[3], Type: row[4]}))
+    setRows(wow)
   }
   return(
     <div className="upload-container">

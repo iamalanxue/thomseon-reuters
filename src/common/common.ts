@@ -132,3 +132,8 @@ export const items = [
 ];
 
 export const cardHeight = 150
+
+export type Rows = {
+  Description: string;
+  Type: string; 
+}

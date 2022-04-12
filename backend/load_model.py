@@ -118,7 +118,7 @@ def guess(path_to_data, output_path):
 
     out = pd.read_csv(path_to_data)
     out['motion_type'] = predictions
-    out.to_csv(output_path) #'static/output.csv'
+    out.to_csv(output_path, index=False) #'static/output.csv'
     return predictions
 
 
