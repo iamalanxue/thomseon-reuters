@@ -1,18 +1,32 @@
 import { BaseSyntheticEvent, useEffect } from 'react';
-import { Button, Typography } from "@mui/material"
+import { 
+  Button, 
+  Typography, 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableContainer, 
+  TableHead, 
+  TableRow, 
+  Paper 
+} from "@mui/material"
 import { useState } from "react"
 import PacmanLoader from "react-spinners/PacmanLoader" 
 import ScaleLoader from "react-spinners/ScaleLoader"
 import { RingLoader } from 'react-spinners';
 import Papa from 'papaparse';
 import { Rows } from '../common/common';
+
 const Upload = () => {
   const [loading, setLoading] = useState<boolean>(false); 
   const [file, setFile] = useState<File | undefined>(undefined);
   const [data, setData] = useState<string[][]>([]); 
   const [tableRows, setRows] = useState<Rows[]>([])
   const [result, setResult] = useState<string>(""); 
-
+  const columns = [
+    { title: 'Docket Entry', field: 'Description'},
+    { title: 'Type of Motion', field: 'Type'},
+  ]
   useEffect(() => {
     console.log(tableRows)
     console.log(data)
@@ -53,15 +67,6 @@ const Upload = () => {
               }
             }
             setResult(temp);
-            // console.log(temp)
-            // let csvData = new Blob([temp], { type: 'text/csv' });  
-            // let csvUrl = URL.createObjectURL(csvData);
-
-            // let hiddenElement = document.createElement('a');
-            // hiddenElement.href = csvUrl;
-            // hiddenElement.target = '_blank';
-            // hiddenElement.download = 'out' + '.csv';
-            // hiddenElement.click();
           })
           return body;
         })
@@ -82,7 +87,7 @@ const Upload = () => {
     hiddenElement.click();
 
     const res = Papa.parse(result, {header: false})
-    setData(res.data as string[][])
+    setData(res.data.slice(1, 8) as string[][])
     const wow = data.map(row => ({Description: row[3], Type: row[4]}))
     setRows(wow)
   }
@@ -128,6 +133,29 @@ const Upload = () => {
            {/* <ScaleLoader color={"#ff5900"} loading={loading} />  */}
            
         </div>
+      {tableRows.length == 0 ? console.log('nothing') : 
+      <TableContainer component={Paper}>
+        <Table sx={{ maxWidth: 1000 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Docket Entry</TableCell>
+              <TableCell align="right">Motion Type</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tableRows.map((row) => (
+              <TableRow
+                key={row.Description}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell align="left">{row.Description}</TableCell>
+                <TableCell align="left">{row.Type}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+}
     </div>
   )
 }
